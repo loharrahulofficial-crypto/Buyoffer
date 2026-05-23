@@ -1,40 +1,41 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { LoaderCircle, MapPin } from 'lucide-react';
 
 const NearMeButton = ({ active, onLocation }) => {
-  const [status, setStatus] = useState(active ? 'active' : 'idle')
+  const [status, setStatus] = useState(active ? 'active' : 'idle');
 
   const handleClick = () => {
     if (!navigator.geolocation) {
-      setStatus('error')
-      alert('Please enable location access in your browser settings')
-      return
+      setStatus('error');
+      alert('Please enable location access in your browser settings');
+      return;
     }
 
-    setStatus('loading')
+    setStatus('loading');
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        setStatus('active')
+        setStatus('active');
         onLocation({
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        })
+        });
       },
       (error) => {
-        console.error('Geolocation error:', error)
-        setStatus('error')
-        alert('Please enable location access in your browser settings')
+        console.error('Geolocation error:', error);
+        setStatus('error');
+        alert('Please enable location access in your browser settings');
       },
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 }
-    )
-  }
+    );
+  };
 
   const label = status === 'loading'
     ? 'Finding you...'
     : status === 'active' || active
-      ? 'Near Me ✓'
+      ? 'Deals near me'
       : status === 'error'
         ? 'Location denied'
-        : 'Near Me'
+        : 'Show deals near me';
 
   return (
     <button
@@ -43,10 +44,10 @@ const NearMeButton = ({ active, onLocation }) => {
       onClick={handleClick}
       disabled={status === 'loading'}
     >
-      <span>📍</span>
+      {status === 'loading' ? <LoaderCircle size={16} className="spin-icon" /> : <MapPin size={16} />}
       <span>{label}</span>
     </button>
-  )
-}
+  );
+};
 
-export default NearMeButton
+export default NearMeButton;

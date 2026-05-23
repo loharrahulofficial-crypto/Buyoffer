@@ -3,21 +3,19 @@ const RADIUS_OPTIONS = [
   { label: '1 km', value: 1 },
   { label: '5 km', value: 5 },
   { label: '10 km', value: 10 }
-]
+];
 
 const RadiusSelector = ({ value, onChange }) => (
-  <div className="radius-selector fade-in">
-    {RADIUS_OPTIONS.map((option) => (
-      <button
-        type="button"
-        key={option.value}
-        className={`radius-pill ${value === option.value ? 'active' : ''}`}
-        onClick={() => onChange(option.value)}
-      >
-        {option.label}
-      </button>
-    ))}
-  </div>
-)
+  <label className="radius-selector">
+    <span>Radius</span>
+    <select value={value} onChange={(event) => onChange(Number(event.target.value))}>
+      {RADIUS_OPTIONS.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </select>
+  </label>
+);
 
-export default RadiusSelector
+export default RadiusSelector;

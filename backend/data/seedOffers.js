@@ -958,6 +958,168 @@ const legacyOffers = [
     imageUrl: 'https://images.unsplash.com/photo-1508737027454-e6454ef45afd?auto=format&fit=crop&q=80&w=800',
     affiliateLink: 'https://www.thrivemarket.com',
     location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  // ==========================================
+  // COLUMN 4: HOME SERVICES (Sequence 74 to 79)
+  // ==========================================
+  {
+    id: 74,
+    category: 'home',
+    title: 'Urban Company - AC Service & Repair',
+    description: 'Flat ₹150 off on professional AC servicing, gas charging, and repair. 30-day warranty.',
+    originalPrice: 599,
+    discountedPrice: 449,
+    discountPercent: 25,
+    expirationDate: '2026-12-31',
+    imageUrl: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.urbancompany.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 75,
+    category: 'home',
+    title: 'Urban Company - Deep Home Cleaning',
+    description: 'Get flat 20% off on full home deep cleaning services. Eco-friendly chemicals used.',
+    originalPrice: 2499,
+    discountedPrice: 1999,
+    discountPercent: 20,
+    expirationDate: '2026-11-30',
+    imageUrl: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.urbancompany.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 76,
+    category: 'home',
+    title: 'Urban Company - Professional Pest Control',
+    description: 'Flat 30% off on herbal pest control for cockroaches, ants, and bed bugs.',
+    originalPrice: 999,
+    discountedPrice: 699,
+    discountPercent: 30,
+    expirationDate: '2026-12-31',
+    imageUrl: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.urbancompany.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 77,
+    category: 'home',
+    title: 'Urban Company - Haircut & Salon at Home',
+    description: 'Flat 15% discount on salon packages, haircuts, facials, and massages for men and women.',
+    originalPrice: 799,
+    discountedPrice: 679,
+    discountPercent: 15,
+    expirationDate: '2026-10-31',
+    imageUrl: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.urbancompany.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 78,
+    category: 'home',
+    title: 'Housejoy - Home Painting Services',
+    description: 'Save 10% on professional interior and exterior home wall painting services.',
+    originalPrice: 15000,
+    discountedPrice: 13500,
+    discountPercent: 10,
+    expirationDate: '2026-12-31',
+    imageUrl: 'https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.housejoy.in',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 79,
+    category: 'home',
+    title: 'Tata Play - New Connection Offer',
+    description: 'Get flat 25% discount on new HD connection box + free installation and 1 month pack.',
+    originalPrice: 2000,
+    discountedPrice: 1500,
+    discountPercent: 25,
+    expirationDate: '2026-09-30',
+    imageUrl: 'https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.tataplay.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  // ==========================================
+  // COLUMN 5: SHOPPING / FASHION (Sequence 80 to 85)
+  // ==========================================
+  {
+    id: 80,
+    category: 'shopping',
+    title: 'Myntra - End of Reason Sale',
+    description: 'Get up to 60% off on top fashion brands, apparel, shoes, and lifestyle accessories.',
+    originalPrice: 2000,
+    discountedPrice: 800,
+    discountPercent: 60,
+    expirationDate: '2026-12-31',
+    imageUrl: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.myntra.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 81,
+    category: 'shopping',
+    title: 'Ajio - Big Bold Sale',
+    description: 'Save flat 50% on premium clothing, winterwear, and ethnic wear collection.',
+    originalPrice: 1500,
+    discountedPrice: 750,
+    discountPercent: 50,
+    expirationDate: '2026-11-30',
+    imageUrl: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.ajio.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 82,
+    category: 'shopping',
+    title: 'Nykaa - Pink Love Beauty Sale',
+    description: 'Get flat 20% off + free gift on top cosmetics, skincare, and wellness products.',
+    originalPrice: 1200,
+    discountedPrice: 960,
+    discountPercent: 20,
+    expirationDate: '2026-12-31',
+    imageUrl: 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.nykaa.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 83,
+    category: 'shopping',
+    title: 'Flipkart - Big Billion Days Fashion',
+    description: 'Save 40% on top sports shoes, sneakers, and activewear from premium brands.',
+    originalPrice: 3000,
+    discountedPrice: 1800,
+    discountPercent: 40,
+    expirationDate: '2026-10-31',
+    imageUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.flipkart.com',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 84,
+    category: 'shopping',
+    title: 'Amazon - Fashion Wardrobe Refresh',
+    description: 'Flat 30% instant discount on premium watches, luggage bags, and sunglasses.',
+    originalPrice: 5000,
+    discountedPrice: 3500,
+    discountPercent: 30,
+    expirationDate: '2026-09-30',
+    imageUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.amazon.in',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
+  },
+  {
+    id: 85,
+    category: 'shopping',
+    title: 'Zara - Premium Summer Collection',
+    description: 'Flat 15% discount on Zara\'s exclusive summer jackets, dresses, and trousers.',
+    originalPrice: 4000,
+    discountedPrice: 3400,
+    discountPercent: 15,
+    expirationDate: '2026-08-31',
+    imageUrl: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&q=80&w=800',
+    affiliateLink: 'https://www.zara.com/in/',
+    location: { city: 'All', state: 'All', area: 'All', coordinates: { lat: 28.6139, lng: 77.2090 } }
   }
 ];
 

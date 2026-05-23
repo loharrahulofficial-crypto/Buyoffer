@@ -9,6 +9,7 @@ import session from 'express-session';
 import passport from 'passport';
 import authRoutes from './routes/auth.js';
 import Offer from './models/Offer.js';
+import legacyOffers from './data/seedOffers.js';
 
 const app = express();
 app.use(express.json());
@@ -34,80 +35,76 @@ const clickLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 30 });
 app.use('/api/clicks', clickLimiter);
 
 // ── Dummy Database (Replace with MongoDB later) ──────────────────────────
-const DUMMY_DEALS = [
-  {
-    id: "d1", title: "50% Off Dominos Pizza", description: "Get flat 50% off on all pizzas up to ₹100", category: "food",
-    brand: { name: "Dominos", logo: "" }, pricing: { originalPrice: 200, discountedPrice: 100, discountPercent: 50, currency: "INR" },
-    affiliate: { link: "https://dominos.co.in", network: "direct" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Food", "Pizza"], imageUrl: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.5, openNow: true, couponCode: "PIZZA50" }, source: "Dominos"
-  },
-  {
-    id: "d2", title: "Amazon Great Indian Festival - iPhone 15", description: "Get ₹5000 instant discount on HDFC cards", category: "shopping",
-    brand: { name: "Apple", logo: "" }, pricing: { originalPrice: 79900, discountedPrice: 74900, discountPercent: 6, currency: "INR" },
-    affiliate: { link: "https://amazon.in", network: "amazon" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Electronics", "Mobile"], imageUrl: "https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.8, openNow: true, couponCode: "" }, source: "Amazon"
-  },
-  {
-    id: "d3", title: "Swiggy Instamart ₹100 Cashback", description: "Flat ₹100 cashback on grocery orders above ₹599", category: "grocery",
-    brand: { name: "Swiggy", logo: "" }, pricing: { originalPrice: 599, discountedPrice: 499, discountPercent: 16, currency: "INR" },
-    affiliate: { link: "https://swiggy.com", network: "swiggy" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Grocery", "Delivery"], imageUrl: "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800", featured: false, rating: 4.2, openNow: true, couponCode: "INSTA100" }, source: "Swiggy"
-  },
-  {
-    id: "d4", title: "Myntra End of Reason Sale", description: "Up to 80% off on top fashion brands + extra 10% on ICICI", category: "shopping",
-    brand: { name: "Myntra", logo: "" }, pricing: { originalPrice: 2000, discountedPrice: 800, discountPercent: 60, currency: "INR" },
-    affiliate: { link: "https://myntra.com", network: "myntra" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Fashion", "Clothes"], imageUrl: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.6, openNow: true, couponCode: "MYNTRA10" }, source: "Myntra"
-  },
-  {
-    id: "d5", title: "Urban Company AC Service", description: "Flat ₹150 off on AC Servicing & Repair", category: "home",
-    brand: { name: "Urban Company", logo: "" }, pricing: { originalPrice: 599, discountedPrice: 449, discountPercent: 25, currency: "INR" },
-    affiliate: { link: "https://urbancompany.com", network: "direct" }, location: { type: "offline", cities: ["Delhi", "Mumbai", "Bangalore"], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Home", "Service"], imageUrl: "https://images.unsplash.com/photo-1581092921461-eab62e97a780?auto=format&fit=crop&q=80&w=800", featured: false, rating: 4.7, openNow: true, couponCode: "AC150" }, source: "Urban Company"
-  },
-  {
-    id: "trip1", title: "Trip.com Hotel Deals - Up to 50% Off", description: "Get massive discounts on hotels worldwide with Trip.com's latest live offers.", category: "traveling",
-    brand: { name: "Trip.com", logo: "" }, pricing: { originalPrice: 10000, discountedPrice: 5000, discountPercent: 50, currency: "INR" },
-    affiliate: { link: "https://www.trip.com/sale/deals/", network: "trip_com" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Hotel", "Travel", "Trip.com"], imageUrl: "https://ak-d.tripcdn.com/images/05E21120008ge6b2520CE.jpg", featured: true, rating: 4.8, openNow: true, couponCode: "" }, source: "Trip.com"
-  },
-  {
-    id: "trip2", title: "Trip.com Flight Offers - Flash Sale", description: "Find the best flight deals for your next holiday. Instant discounts available.", category: "traveling",
-    brand: { name: "Trip.com", logo: "" }, pricing: { originalPrice: 15000, discountedPrice: 12000, discountPercent: 20, currency: "INR" },
-    affiliate: { link: "https://www.trip.com/flights/", network: "trip_com" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Flight", "Travel", "Trip.com"], imageUrl: "https://ak-d.tripcdn.com/images/100d11000000qy2s6A94F_C_500_280_Q50.jpg", featured: true, rating: 4.7, openNow: true, couponCode: "TRIPFLIGHT20" }, source: "Trip.com"
-  },
-  {
-    id: "trip3", title: "Trip.com New User Reward - 8% Off", description: "First time on Trip.com? Get an exclusive 8% discount on your first booking.", category: "traveling",
-    brand: { name: "Trip.com", logo: "" }, pricing: { originalPrice: 5000, discountedPrice: 4600, discountPercent: 8, currency: "INR" },
-    affiliate: { link: "https://www.trip.com/", network: "trip_com" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["New User", "Travel", "Trip.com"], imageUrl: "https://ak-d.tripcdn.com/images/05E2t120009mngv3g6467.jpg", featured: false, rating: 4.9, openNow: true, couponCode: "NEWTRIP8" }, source: "Trip.com"
-  },
-  {
-    id: "bkg1", title: "Booking.com - 15% Off Late Escape Deals", description: "Save 15% or more on stays worldwide with Late Escape Deals.", category: "traveling",
-    brand: { name: "Booking.com", logo: "" }, pricing: { originalPrice: 0, discountedPrice: 0, discountPercent: 15, currency: "INR" },
-    affiliate: { link: "https://www.booking.com/dealspage.html", network: "booking_com" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Hotel", "Travel", "Booking.com"], imageUrl: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.8, openNow: true, couponCode: "" }, source: "Booking.com"
-  },
-  {
-    id: "bkg2", title: "Booking.com Genius - Level 1", description: "Sign in and unlock a lifetime 10% discount on select properties.", category: "traveling",
-    brand: { name: "Booking.com", logo: "" }, pricing: { originalPrice: 0, discountedPrice: 0, discountPercent: 10, currency: "INR" },
-    affiliate: { link: "https://www.booking.com/genius.html", network: "booking_com" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Genius", "Travel", "Booking.com"], imageUrl: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.9, openNow: true, couponCode: "" }, source: "Booking.com"
-  },
-  {
-    id: "htl1", title: "Hotels.com - Member Pricing", description: "Members save 10% or more on over 100,000 hotels worldwide.", category: "traveling",
-    brand: { name: "Hotels.com", logo: "" }, pricing: { originalPrice: 0, discountedPrice: 0, discountPercent: 10, currency: "INR" },
-    affiliate: { link: "https://www.hotels.com/hotel-deals/", network: "direct" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Hotel", "Travel", "Hotels.com"], imageUrl: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.7, openNow: true, couponCode: "" }, source: "Hotels.com"
-  },
-  {
-    id: "htl2", title: "Hotels.com - Last Minute Deals", description: "Grab a last-minute hotel deal and save big on your next trip.", category: "traveling",
-    brand: { name: "Hotels.com", logo: "" }, pricing: { originalPrice: 0, discountedPrice: 0, discountPercent: 20, currency: "INR" },
-    affiliate: { link: "https://www.hotels.com/page/last-minute-hotel-deals/", network: "direct" }, location: { type: "online", cities: [], areas: [] },
-    validity: { endDate: "2027-01-01", isActive: true }, meta: { tags: ["Hotel", "Travel", "Hotels.com"], imageUrl: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&q=80&w=800", featured: true, rating: 4.6, openNow: true, couponCode: "" }, source: "Hotels.com"
-  }
-];
+const inferNetwork = (link = '') => {
+  const value = link.toLowerCase();
+  if (value.includes('booking.com')) return 'booking_com';
+  if (value.includes('amazon.')) return 'amazon';
+  if (value.includes('flipkart.')) return 'flipkart';
+  if (value.includes('zomato.')) return 'zomato';
+  return 'direct';
+};
+
+const getBrandName = (title = '') => title.split(' - ')[0].trim();
+
+const transformLegacyOffer = (offer) => {
+  const network = inferNetwork(offer.affiliateLink || '');
+  const brandName = getBrandName(offer.title || '');
+  
+  return {
+    id: offer.id ? offer.id.toString() : Math.random().toString(36).substr(2, 9),
+    title: offer.title,
+    description: offer.description,
+    category: offer.category,
+    brand: {
+      name: brandName,
+      logo: '',
+      affiliateNetwork: network
+    },
+    pricing: {
+      originalPrice: offer.originalPrice || 0,
+      discountedPrice: offer.discountedPrice || 0,
+      discountPercent: offer.discountPercent || 0,
+      currency: 'INR'
+    },
+    affiliate: {
+      link: offer.affiliateLink || '',
+      network,
+      trackingCode: ''
+    },
+    location: {
+      type: offer.location && offer.location.city === 'All' ? 'online' : 'both',
+      cities: offer.location && offer.location.city !== 'All' ? [offer.location.city] : [],
+      states: offer.location && offer.location.state !== 'All' ? [offer.location.state] : [],
+      areas: offer.location && offer.location.area !== 'All' ? [offer.location.area] : [],
+      coordinates: offer.location && offer.location.coordinates ? {
+        lat: offer.location.coordinates.lat,
+        lng: offer.location.coordinates.lng,
+        type: 'Point',
+        coordinates: [offer.location.coordinates.lng, offer.location.coordinates.lat]
+      } : undefined,
+      geo: offer.location && offer.location.coordinates ? {
+        type: 'Point',
+        coordinates: [offer.location.coordinates.lng, offer.location.coordinates.lat]
+      } : undefined
+    },
+    validity: {
+      startDate: new Date(),
+      endDate: offer.expirationDate ? new Date(offer.expirationDate) : new Date('2027-01-01'),
+      isActive: true
+    },
+    meta: {
+      tags: [offer.category, brandName].filter(Boolean),
+      imageUrl: offer.imageUrl || 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=800',
+      featured: offer.id <= 5,
+      rating: Number((4.0 + ((offer.id || 0) % 10) * 0.1).toFixed(1)),
+      couponCode: (offer.id || 0) % 4 === 0 ? `SAVE${offer.id}` : '',
+      clicks: 0
+    },
+    source: brandName
+  };
+};
+
+const DUMMY_DEALS = legacyOffers.filter(o => o.category !== 'home').map(transformLegacyOffer);
 
 const extraBrands = {
   traveling: [
@@ -283,11 +280,15 @@ async function databaseSearch({ query, category, city, state, area, lat, lng, ra
         id: o._id.toString()
       }));
 
-      return {
-        offers,
-        totalFound: offers.length,
-        searchContext: "Database Search Results"
-      };
+      if (offers.length === 0 && (!query && !city && !state && !area && !lat && !lng)) {
+        console.log("MongoDB is empty, falling back to dummy deals in-memory");
+      } else {
+        return {
+          offers,
+          totalFound: offers.length,
+          searchContext: "Database Search Results"
+        };
+      }
 
     } catch (err) {
       console.error("MongoDB search failed, falling back to dummy deals:", err.message);
